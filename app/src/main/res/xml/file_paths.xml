@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--    files-path 代表 getFilesDir()，它的路径是 /data/user/0/包名/files
+            下面的 xml 代表 getFilesDir() + "/images/" 下的目录可共享，打印出来就是 /data/user/0/包名/files/images/
+            出于安全性考虑，生成 uri 时，会用 name 标签来代表 path 标签
+            content://com.mydomain.fileprovider/my_images/ -->
+    <files-path
+        name="my_images"
+        path="images" />
+    <external-cache-path
+        name="external_storage_root"
+        path="."/>
+</paths>
