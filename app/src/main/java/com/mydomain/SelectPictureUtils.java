@@ -46,7 +46,7 @@ public class SelectPictureUtils {
         // 注意这个路径下的目录需要定义在 Manifest.xml-provider-meta-data 标签中来获得共享权限
         // 否则会抛出 SecurityException 异常
         File imagePath = new File(activity.getFilesDir(), "images");
-        File newFile = new File(imagePath, "default_image.jpg");
+        File newFile = new File(imagePath, System.currentTimeMillis() + ".jpg");
         if (!imagePath.exists()) {
             imagePath.mkdirs();
         }
@@ -65,13 +65,15 @@ public class SelectPictureUtils {
      * @param activity
      * @param uri
      */
-    static void startPhoneZoom(Activity activity, Uri uri) {
+    static void startPhoneZoom(Activity activity, Uri uri, boolean isCaptureImage) {
         File file = new File(activity.getExternalCacheDir(), "images");
         if (!file.exists()) {
             file.mkdirs();
         }
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        if (isCaptureImage) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
         intent.setDataAndType(uri, "image/*");
         mCropImageUri = Uri.parse("file://" + file.getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg");
         // 这个 outputUri 是要使用 Uri.fromFile(file) 生成的，而不是使用FileProvider.getUriForFile

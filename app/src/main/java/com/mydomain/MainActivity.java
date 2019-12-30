@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mShowImageView = findViewById(R.id.iv_show);
 
+
         Log.d("wlfTest", getFilesDir().toString());
         Log.d("wlfTest", getCacheDir().toString());
         Log.d("wlfTest", Environment.getExternalStorageDirectory().toString());
@@ -90,14 +91,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_PICK_IMAGE:
-                if (data != null && data.getData() != null) {
-                    mShowImageView.setImageBitmap(SelectPictureUtils.getBitmapFromUri(this,
-                            data.getData()));
+                if (resultCode == RESULT_OK) {
+                    if (data != null && data.getData() != null) {
+                        SelectPictureUtils.startPhoneZoom(this, data.getData(), false);
+                    }
                 }
                 break;
             case REQUEST_CODE_CAPTURE_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    SelectPictureUtils.startPhoneZoom(this, SelectPictureUtils.getContentUri());
+                    SelectPictureUtils.startPhoneZoom(this, SelectPictureUtils.getContentUri(), true);
                 }
                 break;
             case REQUEST_CODE_CROP_IMAGE:
